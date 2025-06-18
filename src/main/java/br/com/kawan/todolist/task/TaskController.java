@@ -1,6 +1,7 @@
 package br.com.kawan.todolist.task;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/tasks")
@@ -36,5 +38,13 @@ public class TaskController {
         var task = this.taskRepository.save(taskModel);
 
         return ResponseEntity.status(HttpStatus.OK).body(task);
+    }
+
+    @GetMapping("/")
+    public List<TaskModel> list(HttpServletRequest request){
+        var idUser = request.getAttribute("idUser");
+        var tasks = this.taskRepository.findByIdUser((UUID) idUser);
+
+        return tasks;
     }
 }
