@@ -26,7 +26,7 @@ public class TaskController {
     private ITaskRepository taskRepository;
 
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request){
+    public ResponseEntity<Object> create(@RequestBody TaskModel taskModel, HttpServletRequest request){
         var idUser = request.getAttribute("idUser");
         taskModel.setIdUser((UUID) idUser);
 
@@ -53,7 +53,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id){
+    public ResponseEntity<Object> update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id){
         var task = this.taskRepository.findById(id).orElse(null);
 
         if(task == null) {
